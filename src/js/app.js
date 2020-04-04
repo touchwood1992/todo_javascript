@@ -154,7 +154,7 @@ function a(e){
     if(state.allTodos.length > 0)
     {
        const filterArray = state.allTodos.filter(el => {
-            return el.name.indexOf(filterValue) !== -1 ; 
+            return el.name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 ; 
          });
        if(filterArray.length > 0)
        {resetAlltodos();
