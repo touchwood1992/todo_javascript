@@ -4,5 +4,6 @@ export default {
   taskInput: document.querySelector("#task-enter"),
   loadingClass: "loading",
   clearTasks: document.querySelector(".clear-tasks"),
-  addTaskBtn: document.querySelector(".add-task-btn")
+  addTaskBtn: document.querySelector(".add-task-btn"),
+  filterClass:document.querySelector(".filter-task")
 };
