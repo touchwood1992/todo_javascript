@@ -6,22 +6,25 @@ import {
   enableBtn,
   disableBtn,
   addTaskBtnHTML,
-  UpdateTodoTextValue
+  UpdateTodoTextValue,
 } from "./views/addtaskView";
 import { resetAlltodos, showAlltodos } from "./views/listtasksView";
 import TaskModel from "./models/Tasks";
-import {storeToLocalStoage , getLocalStoage , updateLocalSroge, removeLocalStorage} from "./models/Tasks";
+import {
+  storeToLocalStoage,
+  getLocalStoage,
+  updateLocalSroge,
+  removeLocalStorage,
+} from "./models/Tasks";
 
-
-const demoObj = new  TaskModel(5000,"ram");
-
+const demoObj = new TaskModel(5000, "ram");
 
 let state = getLocalStoage();
 
 //get all todos now with sync in localstorage
 const syncstorage = () => {
   state = getLocalStoage();
-}
+};
 
 //Initially set values
 document.addEventListener("DOMContentLoaded", init);
@@ -33,14 +36,13 @@ function init() {
   //Clear text field value
   clearInputValue();
   //Load all todos from localStorage
-  if(state.allTodos.length>0)
-  {
-    showAlltodos(state.allTodos)
+  if (state.allTodos.length > 0) {
+    showAlltodos(state.allTodos);
   }
 }
 
 //Adding Task
-allElements.addTaskForm.addEventListener("submit", e => {
+allElements.addTaskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   addTaks();
 });
@@ -70,7 +72,6 @@ const addTaks = () => {
 
     //Resetting state now
     init();
-
   } else {
     //Add to Model
     const id =
@@ -78,7 +79,7 @@ const addTaks = () => {
         ? state.allTodos[state.allTodos.length - 1].id + 1
         : 1;
 
-    const newObj = new TaskModel(id, inputValue)
+    const newObj = new TaskModel(id, inputValue);
     //state.allTodos.push(newObj);
     storeToLocalStoage(newObj);
     syncstorage();
@@ -110,7 +111,7 @@ allElements.clearTasks.addEventListener("click", () => {
 });
 
 //Remove TODO and Edit todo
-allElements.allTaskContainer.addEventListener("click", e => {
+allElements.allTaskContainer.addEventListener("click", (e) => {
   const parentElement = e.target.parentElement;
   if (parentElement.classList.contains("remove-item")) {
     e.preventDefault();
@@ -122,9 +123,8 @@ allElements.allTaskContainer.addEventListener("click", e => {
 });
 
 // Remove TODO From UI
-const removeTodo = id => {
-  
-//Remove todo from localstorage
+const removeTodo = (id) => {
+  //Remove todo from localstorage
   removeLocalStorage(parseInt(id));
   syncstorage();
   //Reset all todos
@@ -135,31 +135,31 @@ const removeTodo = id => {
 };
 
 // update to TODO in UI
-const updateTodo = id => {
+const updateTodo = (id) => {
   //Update label of button
   addTaskBtnHTML("Update Todo");
   //Set edit todo into state
   state.currenttoDo =
-    state.allTodos[state.allTodos.findIndex(el => el.id === parseInt(id))];
+    state.allTodos[state.allTodos.findIndex((el) => el.id === parseInt(id))];
   //Set todo into form
   UpdateTodoTextValue(state.currenttoDo);
 };
 
-
 //Filter task
 
-allElements.filterClass.addEventListener("keyup" , a);
-function a(e){  
+allElements.filterClass.addEventListener("keyup", a);
+function a(e) {
   const filterValue = e.target.value;
-    if(state.allTodos.length > 0)
-    {
-       const filterArray = state.allTodos.filter(el => {
-            return el.name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 ; 
-         });
-       if(filterArray.length > 0)
-       {resetAlltodos();
-         showAlltodos(filterArray);
-       }
+  if (state.allTodos.length > 0) {
+    const filterArray = state.allTodos.filter((el) => {
+      return el.name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1;
+    });
+    if (filterArray.length > 0) {
+      resetAlltodos();
+      showAlltodos(filterArray);
+    } else {
+      resetAlltodos(true);
     }
   }
+}
 window.getState = () => state;
